@@ -1,0 +1,14 @@
+{
+  "name": "project-v",
+  "version": "1.0.0",
+  "description": "this is my first commit",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.80.1"
+  }
+}
