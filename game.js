@@ -1,4 +1,6 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import Dude from './dude';
+import { playerMovement } from './functions';
 class Example extends Phaser.Scene {
 
     preload() {
@@ -12,59 +14,30 @@ class Example extends Phaser.Scene {
     }
 
     create() {
-        this.platforms = this.physics.add.staticGroup();
-
+        
+        const platforms = this.physics.add.staticGroup();
 
         this.add.image(400, 300, 'sky');
+        
+        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 
-        const particles = this.add.particles(0, 0, 'dude', {
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
+        this.player1 = new Dude(this, platforms, 50, 100);
+        this.player2 = new Dude(this, platforms, 100, 200);
+
+        this.cursors1 = this.input.keyboard.createCursorKeys();
+        this.cursors2 = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            down: Phaser.Input.Keyboard.KeyCodes.S,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D
         });
 
-        const circle = new Phaser.Geom.Circle(0, 0, 20);
-
-        const graphics = this.add.graphics({ fillStyle: { color: 0xff0000 } });
-        graphics.fillCircleShape(circle);
-
-        this.dude = this.physics.add.existing(graphics).body
-
-        // this.dude.setCircle(100)
-
-        this.dude.position.x = 400
-        this.dude.position.y = 300
-
-        // this.dude.isCircle = true
-
-        
-        this.dude.setBounce(0, 0);
-        this.dude.setCollideWorldBounds(true);
-
-        particles.startFollow(this.dude);
-
-        this.cursors = this.input.keyboard.createCursorKeys()
-
-        this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-        this.physics.add.collider(this.dude, this.platforms);
-
+        this.physics.add.collider(this.player1, this.player2);
     }
 
     update() {
-        if (this.cursors.left.isDown) {
-            this.dude.setVelocityX(-160);
-        }
-        else if (this.cursors.right.isDown) {
-            this.dude.setVelocityX(160);
-        }
-        else {
-            this.dude.setVelocityX(0);
-        }
-
-        if (this.cursors.up.isDown && this.dude.touching.down) {
-            this.dude.setVelocityY(-330);
-        }
+        playerMovement(this.cursors1, this.player1)
+        playerMovement(this.cursors2, this.player2)
     }
 }
 
