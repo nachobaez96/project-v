@@ -22,7 +22,7 @@ export default class Dude {
 
         this.body.setCircle(20);
 
-        this.body.setBounce(1);
+        // this.body.setBounce(1);
         this.body.setCollideWorldBounds(true);
 
         particles.startFollow(this.body);

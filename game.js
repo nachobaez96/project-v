@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Dude from './dude';
+import Ball from './ball';
 import { playerMovement } from './functions';
 class Example extends Phaser.Scene {
 
@@ -24,6 +25,8 @@ class Example extends Phaser.Scene {
         this.player1 = new Dude(this, platforms, 50, 100);
         this.player2 = new Dude(this, platforms, 100, 200);
 
+        this.ball = new Ball(this, platforms, 200, 200);
+
         this.cursors1 = this.input.keyboard.createCursorKeys();
         this.cursors2 = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -33,6 +36,7 @@ class Example extends Phaser.Scene {
         });
 
         this.physics.add.collider(this.player1, this.player2);
+        this.physics.add.collider(this.player1, this.ball);
     }
 
     update() {
