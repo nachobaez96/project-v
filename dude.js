@@ -1,5 +1,7 @@
 export default class Dude {
     body;
+    hitbox;
+    hitboxActive = false;
 
     /* 
     * @param 
@@ -28,5 +30,27 @@ export default class Dude {
         particles.startFollow(this.body);
 
         scene.physics.add.collider(this.body, platforms);
+
+        // HITBOX
+
+        this.hitbox = scene.add.circle(positionX, positionY, 30, 0xff00ff, 0.5);
+        this.hitbox.setVisible(false);
+        scene.physics.add.existing(this.hitbox);
+        this.hitbox.body.setCircle(30);
+        this.hitbox.body.setAllowGravity(false);
+        this.hitbox.body.setImmovable(true);
+    }
+
+    activateHitbox() {
+        this.hitbox.setVisible(true);
+        this.hitboxActive = true;
+        this.hitbox.body.reset(this.body.x + 20, this.body.y + 20);
+        this.hitbox.setPosition(this.body.x + 20, this.body.y + 20);
+
+        setTimeout(() => {
+            this.hitbox.setVisible(false);
+            this.hitboxActive = false;
+        }, 200);
     }
 }
+

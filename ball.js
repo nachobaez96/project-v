@@ -1,5 +1,7 @@
 export default class Ball {
     body;
+    initialX;
+    initialY;
 
     /* 
     * @param 
@@ -17,9 +19,16 @@ export default class Ball {
 
         this.body.setCircle(10);
 
-        this.body.setBounce(1);
+        this.body.setBounce(0.5);
         this.body.setCollideWorldBounds(true);
 
         scene.physics.add.collider(this.body, platforms);
+
+        this.initialX = positionX
+        this.initialY = positionY
     }
-}
+
+    respawn() {
+      this.body.reset(this.initialX, this.initialY)
+    }
+  }
