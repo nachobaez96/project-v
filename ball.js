@@ -22,8 +22,6 @@ export default class Ball {
         this.body.setBounce(0.5);
         this.body.setCollideWorldBounds(true);
 
-        scene.physics.add.collider(this.body, platforms);
-
         this.initialX = positionX
         this.initialY = positionY
     }
