@@ -63,6 +63,12 @@ export default class Dude {
         }, 200)
     }
 
+    updateHitboxPosition() {
+        if (this.hitboxActive) {
+          this.hitbox.setPosition(this.body.x + 20, this.body.y + 20)
+        }
+      }
+
     resetTouches() {
         this.consecutiveTouches = 0
     }
