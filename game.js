@@ -78,6 +78,8 @@ class Example extends Phaser.Scene {
     handleBallPlatformCollision(ball, platform) {
         this.updateScore(ball.x)
         this.ball.respawn()
+        this.player1.resetTouches()
+        this.player2.resetTouches()
     }
 
     // checkBallPosition() {
