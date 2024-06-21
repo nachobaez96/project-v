@@ -50,7 +50,9 @@ class Example extends Phaser.Scene {
         });
 
         this.physics.add.overlap(this.player1.hitbox, this.ball.body, (hitbox, ball) => {
-            this.player1.handleHitboxCollision(ball)
+            if (this.player1.hitboxActive) {
+              this.player1.handleHitboxCollision(ball)
+            }
           }, null, this)
 
         this.physics.add.collider(this.ball.body, platforms, this.handleBallPlatformCollision, null, this)
@@ -66,6 +68,9 @@ class Example extends Phaser.Scene {
     update() {
         playerMovement(this.cursors1, this.player1)
         playerMovement(this.cursors2, this.player2)
+
+        this.player1.updateHitboxPosition()
+        this.player2.updateHitboxPosition()
 
         // this.checkBallPosition()
     }
