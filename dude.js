@@ -2,6 +2,7 @@ export default class Dude {
     body;
     hitbox;
     hitboxActive = false;
+    hitboxHasHit = false
     consecutiveTouches = 0
     lastTouchTime = 0
     hitboxActivatedTime = 0
@@ -36,7 +37,7 @@ export default class Dude {
 
         scene.physics.add.collider(this.body, platforms);
 
-        
+
         // HITBOX
 
         this.hitbox = scene.add.circle(positionX, positionY, 30, 0xff00ff, 0.5);
@@ -53,6 +54,7 @@ export default class Dude {
     activateHitbox() {
         this.hitbox.setVisible(true)
         this.hitboxActive = true
+        this.hitboxHasHit = false
         this.hitboxActivatedTime = this.scene.time.now
         this.hitbox.body.reset(this.body.x + 20, this.body.y + 20)
         this.hitbox.setPosition(this.body.x + 20, this.body.y + 20)
@@ -60,22 +62,26 @@ export default class Dude {
         setTimeout(() => {
             this.hitbox.setVisible(false)
             this.hitboxActive = false
+            this.hitboxHasHit = false
         }, 200)
     }
 
     updateHitboxPosition() {
         if (this.hitboxActive) {
-          this.hitbox.setPosition(this.body.x + 20, this.body.y + 20)
+            this.hitbox.setPosition(this.body.x + 20, this.body.y + 20)
         }
-      }
+    }
 
     resetTouches() {
         this.consecutiveTouches = 0
     }
 
-    registerTouch() { // REMOVE
+    registerTouch() {
         const currentTime = this.scene.time.now
-        if (currentTime - this.lastTouchTime > 2000) {
+        if (currentTime - this.lastTouchTime > 20) {
+            return
+        }
+        if (currentTime - this.lastTouchTime > 2000) { // maybe remove
             this.consecutiveTouches = 0
         }
         this.consecutiveTouches += 1
@@ -100,7 +106,14 @@ export default class Dude {
     }
 
     handleHitboxCollision(ball) { // ARREGLARAIROAJEOIAJDFLKASLDFNAESJFNALSFNLGE
+        if (this.hitboxHasHit) {
+            return
+        }
+
+        console.log("hit!")
+
         this.registerTouch()
+        this.hitboxHasHit = true
 
         this.opponent.resetTouches()
 
