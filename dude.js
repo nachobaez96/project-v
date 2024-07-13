@@ -78,14 +78,16 @@ export default class Dude {
 
     registerTouch() {
         const currentTime = this.scene.time.now
-        if (currentTime - this.lastTouchTime > 20) {
+        if (currentTime - this.lastTouchTime < 200) {
             return
         }
-        if (currentTime - this.lastTouchTime > 2000) { // maybe remove
-            this.consecutiveTouches = 0
-        }
+        // if (currentTime - this.lastTouchTime > 2000) { // maybe remove
+        //     this.consecutiveTouches = 0
+        // }
         this.consecutiveTouches += 1
         this.lastTouchTime = currentTime
+
+        console.log(this.consecutiveTouches)
     }
 
     handleBallCollision(ball) {
